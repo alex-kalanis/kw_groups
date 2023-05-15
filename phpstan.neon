@@ -1,0 +1,18 @@
+parameters:
+	level: 9
+	paths:
+		- 'php-src'
+	scanFiles:
+		- 'php-tests/CommonTestClass.php'
+	excludePaths:
+		- 'php-tests/_autoload.php'
+		- 'php-tests/_bootstrap.php'
+		- 'php-tests/CommonTestClass.php'
+	bootstrapFiles:
+		- 'php-tests/_bootstrap.php'
+#	checkGenericClassInNonGenericObjectType: false
+	ignoreErrors:
+		- '#Parameter \#1 \$va[rl]u?e? of function [si][tn][rt]val expects#'
+		# quality WTF - strval, intval
+#		# inter-version...
+#		- '#does not accept array<string, array<string, string>>\|false.#'

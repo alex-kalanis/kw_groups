@@ -1,0 +1,18 @@
+{
+  "author": "kalanis",
+  "name": "kw_groups",
+  "description": "Groups for determine rights in KWCMS",
+  "source": "https://github.com/alex-kalanis/kw_groups",
+  "license": "BSD-3-Clause",
+  "require": {
+    "php": ">=7.2.0"
+  },
+  "suggest": {
+    "alex-kalanis/kw_files": "dev-master",
+    "alex-kalanis/kw_storage": "dev-master"
+  },
+  "require-dev": {
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
