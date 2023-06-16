@@ -6,10 +6,9 @@ namespace kalanis\kw_groups\Interfaces;
 /**
  * Interface IProcessor
  * @package kalanis\kw_groups\Interfaces
- * Library which say if that group member can access that content
- * Based on sources
+ * Interface which say if that group member can access that content
  */
-interface IProcessor
+interface IProcessor extends IActions
 {
     /**
      * Can my group access things with wanted group?
