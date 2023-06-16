@@ -47,8 +47,42 @@ class KwAuth implements ISource
      * @throws LockException
      * @return bool
      */
+    public function create(Interfaces\IGroup $group): bool
+    {
+        $this->lib->createGroup($group);
+        return true;
+    }
+
+    /**
+     * @param string $groupId
+     * @throws AuthException
+     * @throws LockException
+     * @return Interfaces\IGroup|null
+     */
+    public function read(string $groupId): ?Interfaces\IGroup
+    {
+        return $this->lib->getGroupDataOnly($groupId);
+    }
+
+    /**
+     * @param Interfaces\IGroup $group
+     * @throws AuthException
+     * @throws LockException
+     * @return bool
+     */
     public function update(Interfaces\IGroup $group): bool
     {
         return $this->lib->updateGroup($group);
+    }
+
+    /**
+     * @param string $groupId
+     * @throws AuthException
+     * @throws LockException
+     * @return bool
+     */
+    public function delete(string $groupId): bool
+    {
+        return $this->lib->deleteGroup($groupId);
     }
 }

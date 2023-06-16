@@ -46,7 +46,6 @@
     <!-- rest as usual -->
     <testsuites>
         <testsuite name="ALL">
-<!--            <directory>php-tests/BasicTests</directory>-->
             <directory>php-tests/SourcesTests</directory>
             <directory>php-tests/ProcessorTests</directory>
         </testsuite>
