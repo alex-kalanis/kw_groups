@@ -3,6 +3,9 @@
 namespace kalanis\kw_groups\Interfaces;
 
 
+use kalanis\kw_groups\GroupsException;
+
+
 /**
  * Interface ISource
  * @package kalanis\kw_groups\Interfaces
@@ -13,6 +16,7 @@ interface ISource extends IActions
     /**
      * Get structure from source
      * - groupId => array of parent ids
+     * @throws GroupsException
      * @return array<string, array<int, string>>
      */
     public function get(): array;

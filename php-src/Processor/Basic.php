@@ -4,6 +4,7 @@ namespace kalanis\kw_groups\Processor;
 
 
 use kalanis\kw_auth\Interfaces\IGroup;
+use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Interfaces\IProcessor;
 use kalanis\kw_groups\Interfaces\ISource;
 
@@ -74,6 +75,11 @@ class Basic implements IProcessor
         return $result;
     }
 
+    /**
+     * @param IGroup $group
+     * @throws GroupsException
+     * @return bool
+     */
     protected function alreadyInParents(IGroup $group): bool
     {
         foreach ($group->getGroupParents() as $groupParent) {
@@ -84,6 +90,11 @@ class Basic implements IProcessor
         return false;
     }
 
+    /**
+     * @param string $groupId
+     * @throws GroupsException
+     * @return bool
+     */
     protected function isChildSomewhere(string $groupId): bool
     {
         foreach ($this->cachedTree() as $tree) {
@@ -97,6 +108,7 @@ class Basic implements IProcessor
     /**
      * @param string $parentGroup is current one and is stable through all the time during questioning
      * @param string $wantedGroup is to compare and changing as is changed processed branch
+     * @throws GroupsException
      * @return bool
      */
     protected function represents(string $parentGroup, string $wantedGroup): bool
@@ -128,6 +140,7 @@ class Basic implements IProcessor
     }
 
     /**
+     * @throws GroupsException
      * @return array<string, array<int, string>>
      */
     protected function cachedTree(): array

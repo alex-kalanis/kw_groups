@@ -1,6 +1,6 @@
 # kw_groups
 
-[![Build Status](https://app.travis-ci.com/alex-kalanis/kw_tree_controls.svg?branch=master)](https://app.travis-ci.com/github/alex-kalanis/kw_tree_controls)
+[![Build Status](https://app.travis-ci.com/alex-kalanis/kw_groups.svg?branch=master)](https://app.travis-ci.com/github/alex-kalanis/kw_groups)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alex-kalanis/kw_groups/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alex-kalanis/kw_groups/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/alex-kalanis/kw_groups/v/stable.svg?v=1)](https://packagist.org/packages/alex-kalanis/kw_groups)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg)](https://php.net/)
@@ -8,7 +8,7 @@
 [![License](https://poser.pugx.org/alex-kalanis/kw_groups/license.svg?v=1)](https://packagist.org/packages/alex-kalanis/kw_groups)
 [![Code Coverage](https://scrutinizer-ci.com/g/alex-kalanis/kw_groups/badges/coverage.png?b=master&v=1)](https://scrutinizer-ci.com/g/alex-kalanis/kw_groups/?branch=master)
 
-Gropus inside the kw_* project.
+Groups inside the kw_* project.
 
 ## PHP Installation
 
@@ -37,3 +37,21 @@ familiar with composer)
 5.) Just call setting and render
 
 If you want to know more, just open ```examples/``` directory and see the code there.
+
+## Basic Rules
+
+- Can access
+  - Group ID equals current one.
+  - Group ID is somewhere in the tree of parents.
+
+- Add
+  - Fails when the currently added group already exists.
+  - Fails when the currently added group is already defined within parents of this group.
+
+- Update
+  - Fails when the currently updated group is already defined within parents of this group.
+
+- Delete
+  - Can delete only when there is no group with processed one as parent.
+
+The group ID is usually string, although it can be integer converted to string before method call.

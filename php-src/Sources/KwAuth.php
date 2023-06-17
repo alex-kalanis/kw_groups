@@ -5,6 +5,7 @@ namespace kalanis\kw_groups\Sources;
 
 use kalanis\kw_auth\AuthException;
 use kalanis\kw_auth\Interfaces;
+use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Interfaces\ISource;
 use kalanis\kw_locks\LockException;
 
@@ -25,64 +26,55 @@ class KwAuth implements ISource
         $this->lib = $lib;
     }
 
-    /**
-     * @throws AuthException
-     * @throws LockException
-     * @return array<string, array<int, string>>
-     */
     public function get(): array
     {
-        $groups = $this->lib->readGroup();
-        /** @var array<string, array<int, string>> $result */
-        $result = [];
-        foreach ($groups as $group) {
-            $result[$group->getGroupId()] = $group->getGroupParents();
+        try {
+            $groups = $this->lib->readGroup();
+            /** @var array<string, array<int, string>> $result */
+            $result = [];
+            foreach ($groups as $group) {
+                $result[$group->getGroupId()] = $group->getGroupParents();
+            }
+            return $result;
+        } catch (AuthException | LockException $ex) {
+            throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
         }
-        return $result;
     }
 
-    /**
-     * @param Interfaces\IGroup $group
-     * @throws AuthException
-     * @throws LockException
-     * @return bool
-     */
     public function create(Interfaces\IGroup $group): bool
     {
-        $this->lib->createGroup($group);
-        return true;
+        try {
+            $this->lib->createGroup($group);
+            return true;
+        } catch (AuthException | LockException $ex) {
+            throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 
-    /**
-     * @param string $groupId
-     * @throws AuthException
-     * @throws LockException
-     * @return Interfaces\IGroup|null
-     */
     public function read(string $groupId): ?Interfaces\IGroup
     {
-        return $this->lib->getGroupDataOnly($groupId);
+        try {
+            return $this->lib->getGroupDataOnly($groupId);
+        } catch (AuthException | LockException $ex) {
+            throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 
-    /**
-     * @param Interfaces\IGroup $group
-     * @throws AuthException
-     * @throws LockException
-     * @return bool
-     */
     public function update(Interfaces\IGroup $group): bool
     {
-        return $this->lib->updateGroup($group);
+        try {
+            return $this->lib->updateGroup($group);
+        } catch (AuthException | LockException $ex) {
+            throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 
-    /**
-     * @param string $groupId
-     * @throws AuthException
-     * @throws LockException
-     * @return bool
-     */
     public function delete(string $groupId): bool
     {
-        return $this->lib->deleteGroup($groupId);
+        try {
+            return $this->lib->deleteGroup($groupId);
+        } catch (AuthException | LockException $ex) {
+            throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
+        }
     }
 }

@@ -7,15 +7,14 @@ use kalanis\kw_auth\AuthException;
 use kalanis\kw_auth\Data\FileGroup;
 use kalanis\kw_auth\Interfaces\IAccessGroups;
 use kalanis\kw_auth\Interfaces\IGroup;
+use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Sources\KwAuth;
-use kalanis\kw_locks\LockException;
 
 
 class KwAuthTest extends \CommonTestClass
 {
     /**
-     * @throws AuthException
-     * @throws LockException
+     * @throws GroupsException
      */
     public function testSimple(): void
     {
@@ -30,8 +29,17 @@ class KwAuthTest extends \CommonTestClass
     }
 
     /**
-     * @throws AuthException
-     * @throws LockException
+     * @throws GroupsException
+     */
+    public function testSimpleFail(): void
+    {
+        $lib = new KwAuth(new XFailedGroups());
+        $this->expectException(GroupsException::class);
+        $lib->get();
+    }
+
+    /**
+     * @throws GroupsException
      */
     public function testCreate(): void
     {
@@ -43,8 +51,17 @@ class KwAuthTest extends \CommonTestClass
     }
 
     /**
-     * @throws AuthException
-     * @throws LockException
+     * @throws GroupsException
+     */
+    public function testCreateFail(): void
+    {
+        $lib = new KwAuth(new XFailedGroups());
+        $this->expectException(GroupsException::class);
+        $lib->create(new FileGroup());
+    }
+
+    /**
+     * @throws GroupsException
      */
     public function testRead(): void
     {
@@ -61,8 +78,17 @@ class KwAuthTest extends \CommonTestClass
     }
 
     /**
-     * @throws AuthException
-     * @throws LockException
+     * @throws GroupsException
+     */
+    public function testReadFail(): void
+    {
+        $lib = new KwAuth(new XFailedGroups());
+        $this->expectException(GroupsException::class);
+        $lib->read('anything');
+    }
+
+    /**
+     * @throws GroupsException
      */
     public function testUpdate(): void
     {
@@ -81,8 +107,17 @@ class KwAuthTest extends \CommonTestClass
     }
 
     /**
-     * @throws AuthException
-     * @throws LockException
+     * @throws GroupsException
+     */
+    public function testUpdateFail(): void
+    {
+        $lib = new KwAuth(new XFailedGroups());
+        $this->expectException(GroupsException::class);
+        $lib->update(new FileGroup());
+    }
+
+    /**
+     * @throws GroupsException
      */
     public function testDelete(): void
     {
@@ -91,6 +126,16 @@ class KwAuthTest extends \CommonTestClass
         $this->assertTrue($lib->delete('4'));
         // second not - already unknown
         $this->assertFalse($lib->delete('4'));
+    }
+
+    /**
+     * @throws GroupsException
+     */
+    public function testDeleteFail(): void
+    {
+        $lib = new KwAuth(new XFailedGroups());
+        $this->expectException(GroupsException::class);
+        $lib->delete('anything');
     }
 }
 
@@ -182,5 +227,34 @@ class XAccessGroups implements IAccessGroups
             }
         }
         return false;
+    }
+}
+
+
+class XFailedGroups implements IAccessGroups
+{
+    public function createGroup(IGroup $group): void
+    {
+        throw new AuthException('mock');
+    }
+
+    public function getGroupDataOnly(string $groupId): ?IGroup
+    {
+        throw new AuthException('mock');
+    }
+
+    public function readGroup(): array
+    {
+        throw new AuthException('mock');
+    }
+
+    public function updateGroup(IGroup $group): bool
+    {
+        throw new AuthException('mock');
+    }
+
+    public function deleteGroup(string $groupId): bool
+    {
+        throw new AuthException('mock');
     }
 }

@@ -3,6 +3,9 @@
 namespace kalanis\kw_groups\Interfaces;
 
 
+use kalanis\kw_groups\GroupsException;
+
+
 /**
  * Interface IProcessor
  * @package kalanis\kw_groups\Interfaces
@@ -14,6 +17,7 @@ interface IProcessor extends IActions
      * Can my group access things with wanted group?
      * @param string $myGroup
      * @param string $wantedGroup
+     * @throws GroupsException
      * @return bool
      */
     public function canAccess(string $myGroup, string $wantedGroup): bool;
