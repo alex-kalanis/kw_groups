@@ -3,7 +3,7 @@
 namespace kalanis\kw_groups\Processor;
 
 
-use kalanis\kw_auth\Interfaces\IGroup;
+use kalanis\kw_auth_sources\Interfaces\IGroup;
 use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Interfaces\IProcessor;
 use kalanis\kw_groups\Interfaces\ISource;

@@ -3,8 +3,9 @@
 namespace ProcessorTests;
 
 
-use kalanis\kw_auth\Data\FileGroup;
-use kalanis\kw_auth\Interfaces\IGroup;
+use kalanis\kw_auth_sources\Data\FileGroup;
+use kalanis\kw_auth_sources\Interfaces\IGroup;
+use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Interfaces\ISource;
 use kalanis\kw_groups\Processor\Basic;
 
@@ -15,6 +16,7 @@ class BasicTest extends \CommonTestClass
      * @param string $my
      * @param string $want
      * @param bool $result
+     * @throws GroupsException
      * @dataProvider accessProvider
      */
     public function testAccess(string $my, string $want, bool $result): void
@@ -35,6 +37,9 @@ class BasicTest extends \CommonTestClass
         ];
     }
 
+    /**
+     * @throws GroupsException
+     */
     public function testCreate(): void
     {
         $grp = new FileGroup();
@@ -47,6 +52,9 @@ class BasicTest extends \CommonTestClass
         $this->assertFalse($lib->create($grp));
     }
 
+    /**
+     * @throws GroupsException
+     */
     public function testCreateInParents(): void
     {
         $grp = new FileGroup();
@@ -56,6 +64,9 @@ class BasicTest extends \CommonTestClass
         $this->assertFalse($lib->create($grp));
     }
 
+    /**
+     * @throws GroupsException
+     */
     public function testRead(): void
     {
         $lib = new Basic(new XSource());
@@ -70,6 +81,9 @@ class BasicTest extends \CommonTestClass
         $this->assertEquals(['2', '4', '11'], $group->getGroupParents());
     }
 
+    /**
+     * @throws GroupsException
+     */
     public function testUpdate(): void
     {
         $grp = new FileGroup();
@@ -88,6 +102,9 @@ class BasicTest extends \CommonTestClass
         $this->assertEquals(['2'], $contains->getGroupParents());
     }
 
+    /**
+     * @throws GroupsException
+     */
     public function testUpdateInParents(): void
     {
         $grp = new FileGroup();
@@ -97,6 +114,9 @@ class BasicTest extends \CommonTestClass
         $this->assertFalse($lib->update($grp));
     }
 
+    /**
+     * @throws GroupsException
+     */
     public function testDelete(): void
     {
         $lib = new Basic(new XSource());
@@ -106,6 +126,9 @@ class BasicTest extends \CommonTestClass
         $this->assertFalse($lib->delete('5'));
     }
 
+    /**
+     * @throws GroupsException
+     */
     public function testDeleteWithChild(): void
     {
         $lib = new Basic(new XSource());

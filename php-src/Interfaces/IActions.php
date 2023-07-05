@@ -3,7 +3,7 @@
 namespace kalanis\kw_groups\Interfaces;
 
 
-use kalanis\kw_auth\Interfaces\IGroup;
+use kalanis\kw_auth_sources\Interfaces\IGroup;
 use kalanis\kw_groups\GroupsException;
 
 

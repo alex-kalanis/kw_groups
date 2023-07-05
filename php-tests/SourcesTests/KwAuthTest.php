@@ -3,10 +3,10 @@
 namespace SourcesTests;
 
 
-use kalanis\kw_auth\AuthException;
-use kalanis\kw_auth\Data\FileGroup;
-use kalanis\kw_auth\Interfaces\IAccessGroups;
-use kalanis\kw_auth\Interfaces\IGroup;
+use kalanis\kw_auth_sources\AuthSourcesException;
+use kalanis\kw_auth_sources\Data\FileGroup;
+use kalanis\kw_auth_sources\Interfaces\IWorkGroups;
+use kalanis\kw_auth_sources\Interfaces\IGroup;
 use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Sources\KwAuth;
 
@@ -154,7 +154,7 @@ class KwAuthTest extends \CommonTestClass
  *
  * -> extra is in both admin and root group
  */
-class XAccessGroups implements IAccessGroups
+class XAccessGroups implements IWorkGroups
 {
     /** @var IGroup[] */
     protected $internal = [];
@@ -182,14 +182,15 @@ class XAccessGroups implements IAccessGroups
         $this->internal[] = $grp5;
     }
 
-    public function createGroup(IGroup $group): void
+    public function createGroup(IGroup $group): bool
     {
         foreach ($this->internal as $item) {
             if ($group->getGroupId() == $item->getGroupId()) {
-                return;
+                return false;
             }
         }
         $this->internal[] = $group;
+        return true;
     }
 
     public function getGroupDataOnly(string $groupId): ?IGroup
@@ -231,30 +232,30 @@ class XAccessGroups implements IAccessGroups
 }
 
 
-class XFailedGroups implements IAccessGroups
+class XFailedGroups implements IWorkGroups
 {
-    public function createGroup(IGroup $group): void
+    public function createGroup(IGroup $group): bool
     {
-        throw new AuthException('mock');
+        throw new AuthSourcesException('mock');
     }
 
     public function getGroupDataOnly(string $groupId): ?IGroup
     {
-        throw new AuthException('mock');
+        throw new AuthSourcesException('mock');
     }
 
     public function readGroup(): array
     {
-        throw new AuthException('mock');
+        throw new AuthSourcesException('mock');
     }
 
     public function updateGroup(IGroup $group): bool
     {
-        throw new AuthException('mock');
+        throw new AuthSourcesException('mock');
     }
 
     public function deleteGroup(string $groupId): bool
     {
-        throw new AuthException('mock');
+        throw new AuthSourcesException('mock');
     }
 }

@@ -8,7 +8,7 @@
     "license": "BSD-3-Clause",
     "type": "library",
     "require": {
-        "alex-kalanis/kw_auth": ">=2.1",
+        "alex-kalanis/kw_auth_sources": ">=2.0",
         "alex-kalanis/kw_paths": ">=3.0",
         "ext-ctype": "*",
         "ext-json": "*",

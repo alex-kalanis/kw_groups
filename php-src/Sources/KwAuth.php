@@ -3,8 +3,8 @@
 namespace kalanis\kw_groups\Sources;
 
 
-use kalanis\kw_auth\AuthException;
-use kalanis\kw_auth\Interfaces;
+use kalanis\kw_auth_sources\AuthSourcesException;
+use kalanis\kw_auth_sources\Interfaces;
 use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Interfaces\ISource;
 use kalanis\kw_locks\LockException;
@@ -18,10 +18,10 @@ use kalanis\kw_locks\LockException;
  */
 class KwAuth implements ISource
 {
-    /** @var Interfaces\IAccessGroups */
+    /** @var Interfaces\IWorkGroups */
     protected $lib = null;
 
-    public function __construct(Interfaces\IAccessGroups $lib)
+    public function __construct(Interfaces\IWorkGroups $lib)
     {
         $this->lib = $lib;
     }
@@ -36,7 +36,7 @@ class KwAuth implements ISource
                 $result[$group->getGroupId()] = $group->getGroupParents();
             }
             return $result;
-        } catch (AuthException | LockException $ex) {
+        } catch (AuthSourcesException | LockException $ex) {
             throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
         }
     }
@@ -46,7 +46,7 @@ class KwAuth implements ISource
         try {
             $this->lib->createGroup($group);
             return true;
-        } catch (AuthException | LockException $ex) {
+        } catch (AuthSourcesException | LockException $ex) {
             throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
         }
     }
@@ -55,7 +55,7 @@ class KwAuth implements ISource
     {
         try {
             return $this->lib->getGroupDataOnly($groupId);
-        } catch (AuthException | LockException $ex) {
+        } catch (AuthSourcesException | LockException $ex) {
             throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
         }
     }
@@ -64,7 +64,7 @@ class KwAuth implements ISource
     {
         try {
             return $this->lib->updateGroup($group);
-        } catch (AuthException | LockException $ex) {
+        } catch (AuthSourcesException | LockException $ex) {
             throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
         }
     }
@@ -73,7 +73,7 @@ class KwAuth implements ISource
     {
         try {
             return $this->lib->deleteGroup($groupId);
-        } catch (AuthException | LockException $ex) {
+        } catch (AuthSourcesException | LockException $ex) {
             throw new GroupsException($ex->getMessage(), $ex->getCode(), $ex);
         }
     }
