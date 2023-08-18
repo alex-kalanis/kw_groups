@@ -15,7 +15,7 @@ Groups inside the kw_* project.
 ```
 {
     "require": {
-        "alex-kalanis/kw_groups": ">=1.0"
+        "alex-kalanis/kw_groups": ">=2.0"
     }
 }
 ```
@@ -30,28 +30,16 @@ familiar with composer)
 
 2.) Add some external packages with connection to the local or remote services.
 
-3.) Connect the "kalanis\kw_groups\Records\ARecord" into your app. Extends it for setting your case.
+3.) Connect the "kalanis\kw_groups\Processor\Basic" into your app. Extends it for setting your case.
 
 4.) Extend your libraries by interfaces inside the package.
 
-5.) Just call setting and render
-
-If you want to know more, just open ```examples/``` directory and see the code there.
+5.) Just call method canAccess() and enjoy.
 
 ## Basic Rules
 
 - Can access
   - Group ID equals current one.
   - Group ID is somewhere in the tree of parents.
-
-- Add
-  - Fails when the currently added group already exists.
-  - Fails when the currently added group is already defined within parents of this group.
-
-- Update
-  - Fails when the currently updated group is already defined within parents of this group.
-
-- Delete
-  - Can delete only when there is no group with processed one as parent.
 
 The group ID is usually string, although it can be integer converted to string before method call.
