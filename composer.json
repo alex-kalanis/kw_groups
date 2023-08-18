@@ -8,16 +8,9 @@
     "license": "BSD-3-Clause",
     "type": "library",
     "require": {
-        "alex-kalanis/kw_auth_sources": ">=2.0",
-        "alex-kalanis/kw_paths": ">=3.0",
-        "ext-ctype": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
         "php": ">=7.2.0"
     },
     "require-dev": {
-        "alex-kalanis/kw_locks": ">=2.0",
-        "ext-pdo": "*",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpstan/phpstan": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",

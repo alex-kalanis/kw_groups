@@ -3,7 +3,6 @@
 namespace kalanis\kw_groups\Processor;
 
 
-use kalanis\kw_auth_sources\Interfaces\IGroup;
 use kalanis\kw_groups\GroupsException;
 use kalanis\kw_groups\Interfaces\IProcessor;
 use kalanis\kw_groups\Interfaces\ISource;
@@ -34,86 +33,15 @@ class Basic implements IProcessor
         return $this->represents($wantedGroup, $myGroup);
     }
 
-    public function create(IGroup $group): bool
-    {
-        $this->cachedThrough = [];
-        if ($this->source->read($group->getGroupId())) {
-            // already exists
-            return false;
-        }
-        if ($this->alreadyInParents($group)) {
-            return false;
-        }
-        $result = $this->source->create($group);
-        $this->dropCache();
-        return $result;
-    }
-
-    public function read(string $groupId): ?IGroup
-    {
-        return $this->source->read($groupId);
-    }
-
-    public function update(IGroup $group): bool
-    {
-        $this->cachedThrough = [];
-        if ($this->alreadyInParents($group)) {
-            return false;
-        }
-        $result = $this->source->update($group);
-        $this->dropCache();
-        return $result;
-    }
-
-    public function delete(string $groupId): bool
-    {
-        if ($this->isChildSomewhere($groupId)) {
-            return false;
-        }
-        $result = $this->source->delete($groupId);
-        $this->dropCache();
-        return $result;
-    }
-
     /**
-     * @param IGroup $group
-     * @throws GroupsException
-     * @return bool
-     */
-    protected function alreadyInParents(IGroup $group): bool
-    {
-        foreach ($group->getGroupParents() as $groupParent) {
-            if ($this->represents($group->getGroupId(), $groupParent)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param string $groupId
-     * @throws GroupsException
-     * @return bool
-     */
-    protected function isChildSomewhere(string $groupId): bool
-    {
-        foreach ($this->cachedTree() as $tree) {
-            if (in_array($groupId, $tree)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @param string $parentGroup is current one and is stable through all the time during questioning
+     * @param string $currentGroup is current one and is stable through all the time during questioning
      * @param string $wantedGroup is to compare and changing as is changed processed branch
      * @throws GroupsException
      * @return bool
      */
-    protected function represents(string $parentGroup, string $wantedGroup): bool
+    protected function represents(string $currentGroup, string $wantedGroup): bool
     {
-        if ($parentGroup == $wantedGroup) {
+        if ($currentGroup == $wantedGroup) {
             // it's me!
             return true;
         }
@@ -124,15 +52,15 @@ class Basic implements IProcessor
             return false;
         }
 
-        foreach ($groups[$wantedGroup] as $represents) {
+        foreach ($groups[$wantedGroup] as $group) {
             // against cyclic dependence - manually added groups
-            if (isset($this->cachedThrough[$represents])) {
+            if (isset($this->cachedThrough[$group])) {
                 return false;
             }
-            $this->cachedThrough[$represents] = true;
+            $this->cachedThrough[$group] = true;
 
             // somewhere in sub-groups
-            if ($this->represents($parentGroup, $represents)) {
+            if ($this->represents($currentGroup, $group)) {
                 return true;
             }
         }

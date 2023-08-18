@@ -11,7 +11,7 @@ use kalanis\kw_groups\GroupsException;
  * @package kalanis\kw_groups\Interfaces
  * Interface which say if that group member can access that content
  */
-interface ISource extends IActions
+interface ISource
 {
     /**
      * Get structure from source
