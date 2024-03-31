@@ -15,12 +15,11 @@ use kalanis\kw_groups\Interfaces\ISource;
  */
 class Basic implements IProcessor
 {
-    /** @var ISource */
-    protected $source = null;
+    protected ISource $source;
     /** @var array<string, array<int, string>> */
-    protected $cachedTree = [];
+    protected array $cachedTree = [];
     /** @var array<string, bool> */
-    protected $cachedThrough = [];
+    protected array $cachedThrough = [];
 
     public function __construct(ISource $source)
     {

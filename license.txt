@@ -1,5 +1,5 @@
 Copyright 2005-2020 Petr Bolehovský
-Copyright 2005-2021 Petr Plšek
+Copyright 2005-2024 Petr Plšek
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that
 the following conditions are met:

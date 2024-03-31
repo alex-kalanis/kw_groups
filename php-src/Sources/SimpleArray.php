@@ -14,7 +14,7 @@ use kalanis\kw_groups\Interfaces\ISource;
 class SimpleArray implements ISource
 {
     /** @var array<string, array<int, string>> */
-    protected $content = [];
+    protected array $content = [];
 
     /**
      * @param array<string, array<int, string>> $content
